@@ -15,12 +15,12 @@ const All = () => {
     const [time5, setTime5] = useState(0);
     const [time6, setTime6] = useState(0);
 
-    const size1 = 30000;
-    const size2 = 40000;
+    const size1 = 10000;
+    const size2 = 30000;
     const size3 = 50000;
-    const size4 = 60000;
-    const size5 = 70000;
-    const size6 = 80000;
+    const size4 = 70000;
+    const size5 = 90000;
+    const size6 = 100000;
 
     const options = {
         scales: {

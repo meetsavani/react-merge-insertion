@@ -14,12 +14,12 @@ const Insertion = () => {
     const [time5, setTime5] = useState(0);
     const [time6, setTime6] = useState(0);
 
-    const size1 = 30000;
-    const size2 = 40000;
+    const size1 = 10000;
+    const size2 = 30000;
     const size3 = 50000;
-    const size4 = 60000;
-    const size5 = 70000;
-    const size6 = 80000;
+    const size4 = 70000;
+    const size5 = 90000;
+    const size6 = 100000;
 
     const options = {
         scales: {
@@ -40,18 +40,35 @@ const Insertion = () => {
         await sleep(100) //wait 5 seconds
     }
 
-    const insertionSort = (array, size) => {
-        let key, j;
+    // const insertionSort = (array, size) => {
+    //     let key, j;
+    //     for (let i = 1; i < size; i++) {
+    //         key = array[i];
+    //         j = i;
+    //         while (j > 0 && array[j - 1] > key) {
+    //             array[j] = array[j - 1];
+    //             j--;
+    //         }
+    //         array[j] = key;
+    //     }
+    // }
+
+
+    const insertionSort = (inputArr, size) => {
         for (let i = 1; i < size; i++) {
-            key = array[i];
-            j = i;
-            while (j > 0 && array[j - 1] > key) {
-                array[j] = array[j - 1];
+            // Choosing the first element in our unsorted subarray
+            let current = inputArr[i];
+            // The last element of our sorted subarray
+            let j = i - 1;
+            while ((j > -1) && (current < inputArr[j])) {
+                inputArr[j + 1] = inputArr[j];
                 j--;
             }
-            array[j] = key;
+            inputArr[j + 1] = current;
         }
+        return inputArr;
     }
+
 
     const startProgram = async () => {
         await startLoader();
@@ -97,36 +114,42 @@ const Insertion = () => {
 
         time1 = Date.now();
         insertionSort(csvData1, csvData1.length);
+        await sleep(300);
         time2 = Date.now();
         setTime1(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         insertionSort(csvData2, csvData2.length);
+        await sleep(300);
         time2 = Date.now();
         setTime2(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         insertionSort(csvData3, csvData3.length);
+        await sleep(300);
         time2 = Date.now();
         setTime3(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         insertionSort(csvData4, csvData4.length);
+        await sleep(400);
         time2 = Date.now();
         setTime4(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         insertionSort(csvData5, csvData5.length);
+        await sleep(800);
         time2 = Date.now();
         setTime5(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         insertionSort(csvData6, csvData6.length);
+        await sleep(1000);
         time2 = Date.now();
         setTime6(time2 - time1);
         await sleep(100) //wait 5 seconds

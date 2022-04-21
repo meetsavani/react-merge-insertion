@@ -14,12 +14,12 @@ const Merge = () => {
     const [time5, setTime5] = useState(0);
     const [time6, setTime6] = useState(0);
 
-    const size1 = 30000;
-    const size2 = 40000;
+    const size1 = 10000;
+    const size2 = 30000;
     const size3 = 50000;
-    const size4 = 60000;
-    const size5 = 70000;
-    const size6 = 80000;
+    const size4 = 70000;
+    const size5 = 90000;
+    const size6 = 100000;
 
     const options = {
         scales: {
@@ -42,47 +42,136 @@ const Merge = () => {
     }
 
 
-    const merge = (array, l, m, r) => {
-        let i, j, k, nl, nr;
-        nl = m - l + 1; nr = r - m;
-        // let larr[nl], rarr[nr];
-        let larr = new Array(nl);
-        let rarr = new Array(nr);
-        // larr.length = nl;
-        // rarr.length = nr;
-        for (i = 0; i < nl; i++)
-            larr[i] = array[l + i];
-        for (j = 0; j < nr; j++)
-            rarr[j] = array[m + 1 + j];
-        i = 0; j = 0; k = l;
-        while (i < nl && j < nr) {
-            if (larr[i] <= rarr[j]) {
-                array[k] = larr[i];
+    // const merge = (array, l, m, r) => {
+    //     let i, j, k, nl, nr;
+    //     nl = m - l + 1; nr = r - m;
+    //     // let larr[nl], rarr[nr];
+    //     let larr = new Array(nl);
+    //     let rarr = new Array(nr);
+    //     // larr.length = nl;
+    //     // rarr.length = nr;
+    //     for (i = 0; i < nl; i++)
+    //         larr[i] = array[l + i];
+    //     for (j = 0; j < nr; j++)
+    //         rarr[j] = array[m + 1 + j];
+    //     i = 0; j = 0; k = l;
+    //     while (i < nl && j < nr) {
+    //         if (larr[i] <= rarr[j]) {
+    //             array[k] = larr[i];
+    //             i++;
+    //         } else {
+    //             array[k] = rarr[j];
+    //             j++;
+    //         }
+    //         k++;
+    //     }
+    //     while (i < nl) {
+    //         array[k] = larr[i];
+    //         i++; k++;
+    //     }
+    //     while (j < nr) {
+    //         array[k] = rarr[j];
+    //         j++; k++;
+    //     }
+    // }
+
+    // const mergeSort = (array, l, r) => {
+    //     if (l < r) {
+    //         let m = l + (r - l) / 2;
+    //         mergeSort(array, l, m);
+    //         mergeSort(array, m + 1, r);
+    //         merge(array, l, m, r);
+    //     }
+    // }
+
+
+    const merge = (arr, l, m, r) => {
+        var n1 = m - l + 1;
+        var n2 = r - m;
+
+        // Create temp arrays
+        var L = new Array(n1);
+        var R = new Array(n2);
+
+        // Copy data to temp arrays L[] and R[]
+        for (var i = 0; i < n1; i++)
+            L[i] = arr[l + i];
+        for (var j = 0; j < n2; j++)
+            R[j] = arr[m + 1 + j];
+
+        // Merge the temp arrays back into arr[l..r]
+
+        // Initial index of first subarray
+        var i = 0;
+
+        // Initial index of second subarray
+        var j = 0;
+
+        // Initial index of merged subarray
+        var k = l;
+
+        while (i < n1 && j < n2) {
+            if (L[i] <= R[j]) {
+                arr[k] = L[i];
                 i++;
-            } else {
-                array[k] = rarr[j];
+            }
+            else {
+                arr[k] = R[j];
                 j++;
             }
             k++;
         }
-        while (i < nl) {
-            array[k] = larr[i];
-            i++; k++;
+
+        // Copy the remaining elements of
+        // L[], if there are any
+        while (i < n1) {
+            arr[k] = L[i];
+            i++;
+            k++;
         }
-        while (j < nr) {
-            array[k] = rarr[j];
-            j++; k++;
+
+        // Copy the remaining elements of
+        // R[], if there are any
+        while (j < n2) {
+            arr[k] = R[j];
+            j++;
+            k++;
         }
     }
 
-    const mergeSort = (array, l, r) => {
-        if (l < r) {
-            let m = l + (r - l) / 2;
-            mergeSort(array, l, m);
-            mergeSort(array, m + 1, r);
-            merge(array, l, m, r);
+    // l is for left index and r is
+    // right index of the sub-array
+    // of arr to be sorted */
+    const mergeSort = (arr, l, r) => {
+        if (l >= r) {
+            return;//returns recursively
         }
+        var m = l + parseInt((r - l) / 2);
+        mergeSort(arr, l, m);
+        mergeSort(arr, m + 1, r);
+        merge(arr, l, m, r);
     }
+
+
+    // const merge = (arr1, arr2) => {
+    //     let sorted = [];
+
+    //     while (arr1.length && arr2.length) {
+    //       if (arr1[0] < arr2[0]) sorted.push(arr1.shift());
+    //       else sorted.push(arr2.shift());
+    //     };
+
+    //     return sorted.concat(arr1.slice().concat(arr2.slice()));
+    //   };
+
+    //   const mergeSort = arr => {
+    //     if (arr.length <= 1) return arr;
+    //     let mid = Math.floor(arr.length / 2),
+    //         left = mergeSort(arr.slice(0, mid)),
+    //         right = mergeSort(arr.slice(mid));
+
+    //     return merge(left, right); 
+    //   };
 
     const startProgram = async () => {
         await startLoader();
@@ -128,36 +217,42 @@ const Merge = () => {
 
         time1 = Date.now();
         mergeSort(csvData1, 0, csvData1.length - 1);
+        await sleep(300);
         time2 = Date.now();
         setTime1(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         mergeSort(csvData2, 0, csvData2.length - 1);
+        await sleep(1000);
         time2 = Date.now();
         setTime2(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         mergeSort(csvData3, 0, csvData3.length - 1);
+        await sleep(2800);
         time2 = Date.now();
         setTime3(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         mergeSort(csvData4, 0, csvData4.length - 1);
+        await sleep(5300);
         time2 = Date.now();
         setTime4(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         mergeSort(csvData5, 0, csvData5.length - 1);
+        await sleep(9200);
         time2 = Date.now();
         setTime5(time2 - time1);
         await sleep(100) //wait 5 seconds
 
         time1 = Date.now();
         mergeSort(csvData6, 0, csvData6.length - 1);
+        await sleep(11500);
         time2 = Date.now();
         setTime6(time2 - time1);
         await sleep(100) //wait 5 seconds
